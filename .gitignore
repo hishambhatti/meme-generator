@@ -1,0 +1,4 @@
+backend/caption_model/*
+.DS_Store
+__pycache__
+backend/images/*
