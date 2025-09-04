@@ -21,7 +21,7 @@ model = CaptionGenerator(
 )
 
 UPLOAD_DIR = "images/uploaded/"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+# os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.route("/")
 def hello_world():
