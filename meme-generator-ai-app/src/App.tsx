@@ -9,6 +9,9 @@ function App() {
 
   const imgRef = useRef(new FormData());
 
+  const backendUrl = "http://127.0.0.1:5000"
+  //"https://meme-generator-ai-backend-451189649542.us-west1.run.app"
+
   let retryImage: React.MouseEventHandler<HTMLButtonElement> = () => {
     setImgpath("");
     setCaption("");
@@ -18,7 +21,7 @@ function App() {
     // make two requests to backend,
 
     // upload the image to the backend using /upload-img
-    fetch("http://127.0.0.1:5000/upload-img", {
+    fetch(backendUrl + "/upload-img", {
       method: "POST",
       body: imgRef.current,
       headers: {
@@ -32,7 +35,7 @@ function App() {
       let x = await response.json();
 
       let response2 = await fetch(
-        "http://127.0.0.1:5000/cap-generate?src=" + x.filename,
+        backendUrl + "/cap-generate?src=" + x.filename,
         {
           headers: { "Access-Control-Allow-Origin": "*" },
         }
