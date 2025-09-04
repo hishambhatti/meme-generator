@@ -9,7 +9,7 @@ function App() {
 
   const imgRef = useRef(new FormData());
 
-  const backendUrl = "https://meme-generator-ai-backend-451189649542.us-west1.run.app"
+  const backendUrl = "http://127.0.0.1:5000" //"https://meme-generator-ai-backend-451189649542.us-west1.run.app"
 
   let retryImage: React.MouseEventHandler<HTMLButtonElement> = () => {
     setImgpath("");
@@ -20,8 +20,8 @@ function App() {
     console.log("TEST!!")
     // make two requests to backend,
 
-    // upload the image to the backend using /upload-img
-    fetch(backendUrl + "/upload-img", {
+    // upload the image to the backend using /generate-meme
+    fetch(backendUrl + "/generate-meme", {
       method: "POST",
       body: imgRef.current,
       headers: {
@@ -32,17 +32,32 @@ function App() {
         throw new Error("upload to backend failed");
       }
 
-      let x = await response.json();
-
-      let response2 = await fetch(
-        backendUrl + "/cap-generate?src=" + x.filename,
-        {
-          headers: { "Access-Control-Allow-Origin": "*" },
-        }
-      );
-
-      setCaption((await response2.json()).caption);
+      setCaption((await response.json()).caption);
     });
+
+    // // upload the image to the backend using /upload-img
+    // fetch(backendUrl + "/upload-img", {
+    //   method: "POST",
+    //   body: imgRef.current,
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    // }).then(async (response) => {
+    //   if (!response.ok) {
+    //     throw new Error("upload to backend failed");
+    //   }
+
+    //   let x = await response.json();
+
+    //   let response2 = await fetch(
+    //     backendUrl + "/cap-generate?src=" + x.filename,
+    //     {
+    //       headers: { "Access-Control-Allow-Origin": "*" },
+    //     }
+    //   );
+
+    //   setCaption((await response2.json()).caption);
+    // });
   };
 
   let onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {

@@ -61,6 +61,29 @@ def upload_image():
     
     return 'Something went wrong', 500
 
+@app.route("/generate-meme", methods=['POST'])
+@cross_origin()
+def generate_meme():
+    print("enter method")
+    if 'image_file' not in request.files:
+        print("no image_file attribute in request body")
+        return 'No file part', 400
+    
+    file = request.files['image_file']
+
+    if file.filename == '':
+        return 'No selected file', 400
+    if file:
+        print('recieved file successfully')
+
+        # generate caption here
+        mycaption = model.generate_caption(file=file)
+
+        my_response = make_response(jsonify({"caption": mycaption}), 200)
+
+        return my_response
+    
+    return 'Something went wrong', 500
 
 @app.route("/cap-generate") 
 # TODO figure out how to pass the image into this request

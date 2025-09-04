@@ -56,7 +56,7 @@ class CaptionGenerator:
         # You can verify by printing the model structure or trying a sample inference.
         # print(model) # Uncomment to see the model architecture
 
-    def generate_caption(self, img=None, img_path=None):
+    def generate_caption(self, img=None, file=None):
         # Define your two transforms (you already have shitty_transform; here we assume
         # `transform` is your model’s preprocessing, add ToTensor/Normalize there too)
         transform = transforms.Compose([
@@ -74,7 +74,7 @@ class CaptionGenerator:
 
         with torch.no_grad():
             # 1) Load and convert
-            img_pil = Image.open(img_path).convert('RGB')
+            img_pil = Image.open(file).convert('RGB')
 
             # 2) Center-crop to square
             w, h = img_pil.size
@@ -116,7 +116,7 @@ class CaptionGenerator:
             img_np = np.clip(img_np, 0, 1)
 
         # 6) Show
-        print(f"Image: {os.path.basename(img_path)}")
+        # print(f"Image: {os.path.basename(file)}")
         print(f"Caption: {caption}\n{'-'*40}")
 
         return caption
