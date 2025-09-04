@@ -9,8 +9,7 @@ function App() {
 
   const imgRef = useRef(new FormData());
 
-  const backendUrl = "http://127.0.0.1:5000"
-  //"https://meme-generator-ai-backend-451189649542.us-west1.run.app"
+  const backendUrl = "https://meme-generator-ai-backend-451189649542.us-west1.run.app"
 
   let retryImage: React.MouseEventHandler<HTMLButtonElement> = () => {
     setImgpath("");
