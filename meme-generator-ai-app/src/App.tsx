@@ -17,6 +17,7 @@ function App() {
   };
 
   let generateCaption = () => {
+    console.log("TEST!!")
     // make two requests to backend,
 
     // upload the image to the backend using /upload-img
