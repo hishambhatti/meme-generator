@@ -38,18 +38,12 @@ class CaptionGenerator:
         print(f"Model instantiated with {vocab_size} vocabulary size.")
 
         # Load the saved state dictionary [1]
-        try:
-            model.load_state_dict(torch.load(self.weights_path, map_location=self.device))
-            print(f"Model weights loaded successfully from {self.weights_path}")
+        model.load_state_dict(torch.load(self.weights_path, map_location=self.device))
+        print(f"Model weights loaded successfully from {self.weights_path}")
 
-            # Set the model to evaluation mode (important for inference)
-            model.eval()
-            print("Model set to evaluation mode.")
-
-        except FileNotFoundError:
-            print(f"Error: Model weights file not found at {self.weights_path}")
-        except Exception as e:
-            print(f"Error loading model state dictionary: {e}")
+        # Set the model to evaluation mode (important for inference)
+        model.eval()
+        print("Model set to evaluation mode.")
 
         self.model = model
         # Now the 'model' variable holds your loaded model, ready for inference.
