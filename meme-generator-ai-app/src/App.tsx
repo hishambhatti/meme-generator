@@ -21,7 +21,7 @@ function App() {
     // make two requests to backend,
 
     // upload the image to the backend using /generate-meme
-    fetch(backendUrl + "/return-img", {
+    fetch(backendUrl + "/generate-meme", {
       method: "POST",
       body: imgRef.current,
       headers: {
@@ -32,31 +32,8 @@ function App() {
         throw new Error("upload to backend failed");
       }
 
-      return response.blob();
-    }).then(async (blob) => {
-      const url = URL.createObjectURL(blob);
-      const debugImageElement = document.getElementById("debugImage") as HTMLImageElement;
-      if(debugImageElement == null) {
-        return;
-      }
-      setCaption("<no caption generated>")
-      debugImageElement.src = url;
+      setCaption((await response.json()).caption);
     });
-
-    // // upload the image to the backend using /generate-meme
-    // fetch(backendUrl + "/generate-meme", {
-    //   method: "POST",
-    //   body: imgRef.current,
-    //   headers: {
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    // }).then(async (response) => {
-    //   if (!response.ok) {
-    //     throw new Error("upload to backend failed");
-    //   }
-
-    //   setCaption((await response.json()).caption);
-    // });
   };
 
   let onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -223,9 +200,6 @@ function App() {
             Try Another Image
           </Button>
         )}
-
-        <h2>I got this image:</h2>
-        <img id='debugImage'></img>
 
         {/* These hidden elements are used for the download functionality */}
         <canvas
