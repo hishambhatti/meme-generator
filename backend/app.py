@@ -5,7 +5,7 @@ import json
 #     print("NOT IN VIRTUAL ENV")
 #     sys.exit()
 
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request, make_response, jsonify, Response
 from flask_cors import CORS, cross_origin
 import os
 from modules.caption_model import CaptionGenerator
@@ -27,39 +27,47 @@ UPLOAD_DIR = "images/uploaded/"
 def hello_world():
     return '<p>hi there! It works!</p>'
 
-# @app.route("/upload-img", methods=['OPTIONS'])
-# def preflight_response():
-#     my_response = make_response("", 200)
-#     my_response.headers['Access-Control-Allow-Origin'] = '*'
-
-#     return my_response
-
-@app.route("/upload-img", methods=['POST'])
+@app.route("/return-img", methods=['POST'])
 @cross_origin()
-def upload_image():
-    print("upload recieved")
+def return_img():
     if 'image_file' not in request.files:
-        return 'No file part', 400
-    
+        print("no image_file attribute in request body")
+        return "No file part in the request", 400
+
     file = request.files['image_file']
 
     if file.filename == '':
-        return 'No selected file', 400
+        return "No selected file", 400
+
     if file:
-        full_path = os.path.join(UPLOAD_DIR, file.filename)
-
-        file.save(full_path)
-        print('success')
-
-        my_response = make_response(jsonify({"filename": file.filename}), 200)
-        # my_response.headers['Access-Control-Allow-Origin'] = '*'
-
-
-        print(my_response.headers)
-
-        return my_response
+        # Read the image data from the in-memory file
+        image_data = file.read()
+        
+        # Get the MIME type (e.g., 'image/jpeg', 'image/png')
+        mimetype = file.mimetype
+        
+        # Return the raw image data with the correct MIME type
+        return Response(image_data, mimetype=mimetype)
+    # if 'image_file' not in request.files:
+    #     print("no image_file attribute in request body")
+    #     return 'No file part', 400
     
-    return 'Something went wrong', 500
+    # file = request.files['image_file']
+
+    # if file.filename == '':
+    #     return 'No selected file', 400
+    # if file:
+    #     print('recieved file successfully')
+    #     file.seek(0)
+
+    #     try:
+    #         # Send the file. You can specify mimetype and attachment_filename if needed.
+    #         print("sending now!")
+    #         return send_file(file, mimetype='image/jpeg')
+    #     except FileNotFoundError:
+    #         abort(404, description="Image not found")
+        
+    # return 'Something went wrong', 500
 
 @app.route("/generate-meme", methods=['POST'])
 @cross_origin()
@@ -84,22 +92,3 @@ def generate_meme():
         return my_response
     
     return 'Something went wrong', 500
-
-@app.route("/cap-generate") 
-# TODO figure out how to pass the image into this request
-def generate_cap():
-    img_path = request.args.get('src')
-    
-    # check if img_path is a valid image that was uploaded
-    if (not os.path.exists(os.path.join(UPLOAD_DIR, img_path))):
-        return "image path invalid", 404
-
-    # generate caption here
-    mycaption = model.generate_caption(img_path=os.path.join(UPLOAD_DIR, img_path))
-
-    # delete the image after a caption has been generated from it
-    os.remove(os.path.join(UPLOAD_DIR, img_path))
-
-    my_response = make_response(jsonify({"caption": mycaption}), 200)
-
-    return my_response

@@ -21,7 +21,7 @@ function App() {
     // make two requests to backend,
 
     // upload the image to the backend using /generate-meme
-    fetch(backendUrl + "/generate-meme", {
+    fetch(backendUrl + "/return-img", {
       method: "POST",
       body: imgRef.current,
       headers: {
@@ -32,11 +32,19 @@ function App() {
         throw new Error("upload to backend failed");
       }
 
-      setCaption((await response.json()).caption);
+      return response.blob();
+    }).then(async (blob) => {
+      const url = URL.createObjectURL(blob);
+      const debugImageElement = document.getElementById("debugImage") as HTMLImageElement;
+      if(debugImageElement == null) {
+        return;
+      }
+      setCaption("<no caption generated>")
+      debugImageElement.src = url;
     });
 
-    // // upload the image to the backend using /upload-img
-    // fetch(backendUrl + "/upload-img", {
+    // // upload the image to the backend using /generate-meme
+    // fetch(backendUrl + "/generate-meme", {
     //   method: "POST",
     //   body: imgRef.current,
     //   headers: {
@@ -47,16 +55,7 @@ function App() {
     //     throw new Error("upload to backend failed");
     //   }
 
-    //   let x = await response.json();
-
-    //   let response2 = await fetch(
-    //     backendUrl + "/cap-generate?src=" + x.filename,
-    //     {
-    //       headers: { "Access-Control-Allow-Origin": "*" },
-    //     }
-    //   );
-
-    //   setCaption((await response2.json()).caption);
+    //   setCaption((await response.json()).caption);
     // });
   };
 
@@ -224,6 +223,9 @@ function App() {
             Try Another Image
           </Button>
         )}
+
+        <h2>I got this image:</h2>
+        <img id='debugImage'></img>
 
         {/* These hidden elements are used for the download functionality */}
         <canvas
