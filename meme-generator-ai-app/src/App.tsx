@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 function App() {
   const [imgpath, setImgpath] = useState("");
   const [caption, setCaption] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const imgRef = useRef(new FormData());
 
@@ -17,7 +18,8 @@ function App() {
   };
 
   let generateCaption = () => {
-    console.log("TEST!!")
+    setLoading(true)
+    console.log("TEST!2!")
     // make two requests to backend,
 
     // upload the image to the backend using /generate-meme
@@ -33,6 +35,7 @@ function App() {
       }
 
       setCaption((await response.json()).caption);
+      setLoading(false)
     });
   };
 
@@ -178,7 +181,16 @@ function App() {
 
         <Caption text={caption == "" ? undefined : caption} />
 
-        {caption != "" || imgpath == "" ? undefined : (
+        {loading && (
+          <div>
+            <p className="text-sm md:text-base lg:text-lg">
+              Loading 
+              <i className="fa-solid fa-spinner animate-spin scale-100 md:scale-125 lg:scale-150 mx-1.5 md:mx-2 lg:mx-3"></i>
+            </p>
+          </div>
+        )}
+
+        {caption != "" || imgpath == "" || loading ? undefined : (
           <Button
             className="max-w-xl w-full bg-blue-500"
             onClick={generateCaption}
