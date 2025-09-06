@@ -89,19 +89,16 @@ class CaptionGenerator:
                 if tok == "<end>": break
                 tokens.append(tok)
             
-            # create caption (without adding unnecessary spaces)
+            # Create caption (without adding unnecessary spaces)
             caption = ""
             punctuations = ['.', ',', '?', '!', ':', ';']
             for tok in tokens:
-                
                 if not tok in punctuations:
                     caption += " "
                 caption += tok
             
             caption = caption[1:]
-
-            caption = caption[0].upper() + caption[1:]
-
+            caption = caption[0].upper() + caption[1:] # Capitalize first character
 
             # 5) Prepare for display
             img_np = shitty_img_tensor.squeeze(0).permute(1, 2, 0).cpu().numpy()
