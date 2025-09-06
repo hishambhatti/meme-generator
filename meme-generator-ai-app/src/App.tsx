@@ -1,6 +1,6 @@
 import Caption from "./Caption";
 import FileDrop from "./FileDrop";
-import Button from "./component/Button";
+import Button from "./components/Button";
 import { useState, useRef } from "react";
 
 function App() {
@@ -15,14 +15,12 @@ function App() {
   let retryImage: React.MouseEventHandler<HTMLButtonElement> = () => {
     setImgpath("");
     setCaption("");
+    setLoading(false)
   };
 
   let generateCaption = () => {
     setLoading(true)
-    console.log("TEST!2!")
-    // make two requests to backend,
 
-    // upload the image to the backend using /generate-meme
     fetch(backendUrl + "/generate-meme", {
       method: "POST",
       body: imgRef.current,
@@ -46,8 +44,7 @@ function App() {
       // Create a URL for the selected file
       const reader = new FileReader();
 
-      // store the image (so that when we request the backend, we have something
-      // to give)
+      // Store the image (so that when we request the backend, we have something to give)
       const formData = new FormData();
       formData.append("image_file", file);
 
@@ -62,7 +59,7 @@ function App() {
     }
   };
 
-  // function to draw the image to canvas
+  // Function to draw the image to canvas
   function draw(
     canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
@@ -80,26 +77,25 @@ function App() {
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // img height after scaling so that the width matches the screen
+      // Img height after scaling so that the width matches the screen
       const scaledImgHeight = (canvas.width / img.width) * img.height;
 
-      // offset for leaving space for the caption at the top
+      // Offset for leaving space for the caption at the top
       const captionoffset = 75;
 
-      // padding to leave a bit of space at the bottom
+      // Padding to leave a bit of space at the bottom
       const bottomPadding = 25;
 
-      // maximum image height before it starts getting cropped by the canvas
+      // Maximum image height before it starts getting cropped by the canvas
       const maxImgHeight = canvas.height - captionoffset - bottomPadding;
 
-      // check if scaling width to canvas causes cropping
+      // Check if scaling width to canvas causes cropping
       if (scaledImgHeight <= maxImgHeight) {
-        // scale to width was ok
+        // Scale to width was ok
         canvas.height = scaledImgHeight + captionoffset + bottomPadding;
         ctx.drawImage(img, 0, captionoffset, canvas.width, scaledImgHeight);
       } else {
-        console.log("here");
-        // scale to width failed, scale to height instead
+        // Scale to width failed, scale to height instead
         const scaledImgWidth = (maxImgHeight / img.height) * img.width;
         ctx.drawImage(
           img,
@@ -110,7 +106,7 @@ function App() {
         );
       }
 
-      // figure out how many lines it will take
+      // Figure out how many lines it will take
       ctx.fillStyle = "black";
       ctx.font = "24px sans-serif";
       ctx.textAlign = "center";
@@ -132,8 +128,6 @@ function App() {
       }
       lines.push(currLine);
 
-      console.log(lines);
-
       if (lines.length == 2) {
         ctx.fillText(lines[0], canvas.width / 2, captionoffset / 4);
         ctx.fillText(lines[1], canvas.width / 2, (3 * captionoffset) / 4);
@@ -148,7 +142,7 @@ function App() {
   }
 
   function onDownloadPress() {
-    // draw the desired image to the canvas
+    // Draw the desired image to the canvas
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
     const downloadLink = document.getElementById(
@@ -156,8 +150,6 @@ function App() {
     ) as HTMLAnchorElement;
 
     draw(canvas, ctx, downloadLink);
-
-    // save the image to the user's downloads
   }
 
   return (
@@ -167,11 +159,11 @@ function App() {
           Live, Laugh, Learn
         </h1>
         <h3 className="p-3 text-xl md:text-2xl lg:text-3xl font-light text-slate-800 text-center">
-          A deep learning model for humorous image captioning.
+          A deep learning model for humorous image captioning
         </h3>
         {imgpath == "" ? (
           <FileDrop onChangeEvent={onChangeHandler}>
-            Select an image (.png, .jpg, .jpeg, or .heic) to be meme-ified!
+            Select an image (.png, .jpg, .jpeg) to be meme-ified!
           </FileDrop>
         ) : undefined}
 
@@ -207,6 +199,7 @@ function App() {
             Download Meme <i className="fa-solid fa-file-arrow-down"></i>
           </Button>
         )}
+
         {caption == "" ? undefined : (
           <Button className="max-w-xl w-full bg-blue-500" onClick={retryImage}>
             Try Another Image

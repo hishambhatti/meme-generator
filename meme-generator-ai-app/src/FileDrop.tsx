@@ -22,7 +22,7 @@ const FileDrop: React.FC<FileDropProps> = (props) => {
 
       <input
         type="file"
-        accept=".png,.jpg,.jpeg,.heic"
+        accept=".png,.jpg,.jpeg"
         className="hidden"
         onChange={onChangeEventHandler}
         id="file-input"
