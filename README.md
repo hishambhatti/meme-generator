@@ -1,5 +1,4 @@
 # Live, Laugh, Learn: A deep learning model for meme captioning
-
 This project uses deep learning and computer vision to create a meme caption for a user-inputted image. 
 
 Website **available** at **https://hishambhatti.github.io/meme-generator**
