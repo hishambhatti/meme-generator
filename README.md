@@ -22,7 +22,14 @@ The details of how our model works internally can be found in this paper! It als
 
 Here is a gallery of some of my favorite generated captions:
 
+| ![Dog](images/Favorite%20Images/dog.jpeg) | ![Multitask Github commits](images/Favorite%20Images/multitask.png) |
+| :---: | :---: |
 
+| <img src="images/Favorite%20Images/fire_nation.jpeg" width="750"> | <img src="images/Favorite%20Images/aldya.PNG" width="350"> |
+| :---: | :---: |
+
+| ![Marco](images/Favorite%20Images/marco.jpeg) | ![Public transport](images/Favorite%20Images/public%20transport.jpeg) |
+| :---: | :---: |
 
 ### Tools
 
@@ -33,5 +40,5 @@ Developer Tools: Google Cloud (for backend server), Git, Github
 
 ### Credit
 
-* Creators: Hisham Bhatti, Samarjit Kaushik, Parum Misri, and Rishit Khare (for full-stack deployment)
+* **Creators**: Hisham Bhatti, Samarjit Kaushik, Parum Misri, and Rishit Khare (for full-stack deployment)
 * Thanks to Prof. Ranjay Krishna and the entire CSE 599 G staff!
