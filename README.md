@@ -15,7 +15,7 @@ Afterwards, I wanted to deploy this model to the Internet so that family and fri
 
 ## Details
 
-The details of how our model works internally can be found in this paper! It also discusses some challenges with training and evaluating our model. As for the meme generator frontend, note that at the moment, any picture you send will be cropped from the center to be a square. 
+The details of how our model works internally can be found in this [paper](Final_Paper.pdf)! It also discusses some challenges with training and evaluating our model. As for the meme generator frontend, note that at the moment, any picture you send will be cropped from the center to be a square. 
 
 ## Favorite Pics
 
