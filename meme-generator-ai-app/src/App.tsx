@@ -214,6 +214,12 @@ function App() {
           height="720"
         ></canvas>
         <a id="downloadLink" className="hidden" download></a>
+        <footer className=" bg-slate-100 w-full mt-8 py-4">
+          <p className="text-center text-slate-600 text-sm md:text-base">
+            Website created by <span className="font-medium">Hisham Bhatti</span> &{" "}
+            <span className="font-medium">Rishit Khare</span>
+          </p>
+        </footer>
       </div>
     </>
   );
