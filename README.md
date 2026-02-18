@@ -42,6 +42,8 @@ Developer Tools: Google Cloud (for backend server), Git, Github
 * **Creators**: Hisham Bhatti, Samarjit Kaushik, Parum Misri, and Rishit Khare (for full-stack deployment)
 * Thanks to Prof. Ranjay Krishna and the entire CSE 599 G staff!
 
+For older commit history, please visit https://github.com/rishitkhare/meme-generator-AI
+
 ### Potential Next Steps
 
 * Make a text generate animation
